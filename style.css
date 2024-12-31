@@ -54,7 +54,7 @@ footer i {
 
 /* Background for Footer */
 .footer.bg-agriculture {
-  background-image: url('assets/agriculture-background.jpg'); /* Replace with your agriculture image */
+  background-image: url('assets/image.jpg'); /* Replace with your agriculture image */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
