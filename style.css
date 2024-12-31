@@ -155,12 +155,13 @@ footer ul li {
 .carousel-inner {
   display: flex;
   overflow: hidden;
+  flex-wrap: nowrap; /* Prevent items from wrapping */
 }
 
 .carousel-item {
   display: flex;
   transition: transform 1s ease-in-out; /* Smooth transition */
-  flex: 1 0 100%; /* Each item takes up full container width */
+  flex: 0 0 100%; /* Each item takes up full container width */
 }
 
 .carousel-item .row {
