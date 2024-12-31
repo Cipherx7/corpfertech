@@ -1,0 +1,187 @@
+.hero-section {
+    height: 100vh;
+    background: url('assets/image.png') no-repeat center center/cover;
+  }
+
+  .card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .card-text {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  /* Custom Styles for Footer */
+/* Custom Styles for Footer */
+footer .fab {
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+footer .fab:hover {
+  color: #28a745; /* Change color on hover */
+}
+  
+
+
+
+footer {
+  background-color: #343a40;
+  color: #fff;
+}
+
+footer h5 {
+  font-weight: bold;
+}
+
+footer a {
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer i {
+  margin-right: 8px;
+}
+
+/* Background for Footer */
+.footer.bg-agriculture {
+  background-image: url('assets/agriculture-background.jpg'); /* Replace with your agriculture image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 40px 0;
+  color: #fff;
+}
+
+/* Styling Footer Text and Icons */
+footer h5 {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+footer a {
+  text-decoration: none;
+  color: #fff;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer i {
+  margin-right: 8px;
+}
+
+/* Icon size and hover effect */
+footer .fab {
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+footer .fab:hover {
+  color: #28a745; /* Green color on hover */
+}
+
+/* Adjust text color for better readability */
+footer p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+footer ul li {
+  margin: 10px 0;
+}
+
+
+
+
+
+#productCarousel {
+  margin-top: 50px; /* Adds space above the product section */
+  margin-bottom: 50px; /* Adds space below the product section */
+}
+#about {
+  background-color: #f9f9f9;
+}
+
+#about img {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+#about h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+#about p {
+  color: #555;
+  line-height: 1.6;
+}
+
+#about .btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+#contact {
+  background-color: #f8f9fa;
+}
+
+#contact h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+#contact p {
+  color: #555;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.map-container {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+/* Ensure each carousel item displays 3 products */
+.carousel-inner {
+  display: flex;
+  overflow: hidden;
+}
+
+.carousel-item {
+  display: flex;
+  transition: transform 1s ease-in-out; /* Smooth transition */
+  flex: 1 0 100%; /* Each item takes up full container width */
+}
+
+.carousel-item .row {
+  display: flex;
+}
+
+.carousel-item .col-4 {
+  flex: 0 0 33.3333%; /* Display 3 items per slide */
+}
+
+/* Optional: Control carousel speed (constant movement) */
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for controls */
+  border-radius: 50%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: white;
+}
