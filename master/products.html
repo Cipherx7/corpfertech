@@ -1,1 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CropTech Fert - Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #2d5a27;
+            --accent-yellow: #c9a227;
+            --earth-brown: #5c4a3a;
+        }
 
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar {
+            border-bottom: 3px solid var(--accent-yellow);
+            background-color: var(--primary-green) !important;
+        }
+
+        .product-card {
+            border: 2px solid var(--primary-green);
+            border-radius: 15px;
+            overflow: hidden;
+            height: 100%;
+            transition: transform 0.3s;
+            background: white;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-img-container {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-badge {
+            background: var(--primary-green);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin: 2px;
+            display: inline-block;
+        }
+
+        .filter-card {
+            background: rgba(45, 90, 39, 0.05);
+            border: 1px solid rgba(45, 90, 39, 0.1);
+            border-radius: 10px;
+        }
+
+        .filter-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-section h6 {
+            color: var(--primary-green);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .filter-group {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .btn-cta {
+            background: var(--primary-green);
+            color: white;
+            border: 2px solid var(--accent-yellow);
+            border-radius: 25px;
+            padding: 8px 25px;
+        }
+
+        .btn-cta:hover {
+            background: var(--accent-yellow);
+            color: var(--primary-green);
+        }
+
+        @media (max-width: 768px) {
+            .card-img-container {
+                height: 180px;
+            }
+
+            .filter-card {
+                margin-bottom: 2rem;
+            }
+
+            .product-badge {
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .card-img-container {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark py-3">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-tractor me-2"></i>CropTech Fert, Nashik
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="card p-3 filter-card">
+                        <h4 class="mb-3">Filter Products</h4>
+                        <div class="mb-3">
+                            <input type="text" id="searchInput" class="form-control" 
+                                   placeholder="Search products...">
+                        </div>
+                        <div id="filterSections"></div>
+                        <button class="btn btn-cta btn-sm w-100" id="resetFilters">Reset Filters</button>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4" id="productsGrid"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-5" style="background: var(--primary-green); color: white;">
+        <div class="container">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 CropTech Fert. All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const API_URL = 'https://sheetdb.io/api/v1/ck6k7d9y5gp4z';
+        const WHATSAPP_NUMBER = '919226799099';
+        
+        let allProducts = [];
+        let activeFilters = {
+            searchTerm: '',
+            categories: [],
+            minerals: [],
+            applications: [],
+            additives: [],
+            nutritional: []
+        };
+        
+        // Helper function to parse JSON strings safely
+        const parseField = (str) => {
+            try {
+                if (!str || str === '[]') return [];
+                return JSON.parse(str.replace(/\\\//g, '/'));
+            } catch (e) {
+                console.warn('Parse error for:', str);
+                return [];
+            }
+        };
+        
+        async function fetchProducts() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                allProducts = data.map(product => ({
+                    ...product,
+                    specs: parseField(product.specs),
+                    minerals: parseField(product.minerals),
+                    applications: parseField(product.applications),
+                    additives: parseField(product.additives),
+                    nutritional: parseField(product.nutritional),
+                    category: product.category || 'Uncategorized'
+                }));
+                
+                initializeFilters();
+                renderProducts();
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+        
+        function initializeFilters() {
+            const filterCategories = {
+                categories: 'Categories',
+                minerals: 'Minerals',
+                applications: 'Applications',
+                additives: 'Additives',
+                nutritional: 'Nutritional'
+            };
+        
+            const filterSections = document.getElementById('filterSections');
+            filterSections.innerHTML = Object.entries(filterCategories).map(([key, title]) => {
+                const uniqueValues = [...new Set(allProducts.flatMap(p => 
+                    key === 'categories' ? [p.category] : p[key]
+                ))].filter(value => value && value.length > 0)
+                  .sort();
+        
+                return `
+                    <div class="filter-section">
+                        <h6>${title}</h6>
+                        <div class="filter-group">
+                            ${uniqueValues.map(value => `
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" 
+                                           id="filter-${key}-${value.replace(/\W+/g, '-')}"
+                                           data-filter-type="${key}" value="${value}">
+                                    <label class="form-check-label" 
+                                           for="filter-${key}-${value.replace(/\W+/g, '-')}">
+                                        ${value}
+                                    </label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        
+            // Add event listeners for new filter checkboxes
+            document.querySelectorAll('.form-check-input').forEach(checkbox => {
+                checkbox.addEventListener('change', handleFilterChange);
+            });
+        }
+        
+        function handleFilterChange(e) {
+            const filterType = e.target.dataset.filterType;
+            const value = e.target.value;
+            
+            activeFilters[filterType] = e.target.checked
+                ? [...activeFilters[filterType], value]
+                : activeFilters[filterType].filter(item => item !== value);
+            
+            renderProducts();
+        }
+        
+        function renderProducts() {
+            const filteredProducts = allProducts.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(activeFilters.searchTerm) ||
+                                    product.desc.toLowerCase().includes(activeFilters.searchTerm);
+                
+                const matchesFilters = Object.entries(activeFilters)
+                    .filter(([key]) => key !== 'searchTerm')
+                    .every(([key, values]) => {
+                        if (key === 'categories') {
+                            return values.length === 0 || values.includes(product.category);
+                        }
+                        return values.length === 0 || 
+                            product[key].some(item => values.includes(item));
+                    });
+        
+                return matchesSearch && matchesFilters;
+            });
+        
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = filteredProducts.map(product => `
+                <div class="col">
+                    <div class="card product-card h-100">
+                        <div class="card-img-container">
+                            <img src="${product.img}" class="card-img-top" alt="${product.name}" 
+                                 onerror="this.src='https://placehold.co/400x250?text=Product+Image'">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text">${product.desc}</p>
+                            <div class="mb-3">
+                                ${product.specs.map(spec => `
+                                    <span class="product-badge">${spec}</span>
+                                `).join('')}
+                            </div>
+                            <div class="product-details small">
+                                ${product.category ? `<div><strong>Category:</strong> ${product.category}</div>` : ''}
+                                ${product.minerals.length ? `<div><strong>Minerals:</strong> ${product.minerals.join(', ')}</div>` : ''}
+                                ${product.applications.length ? `<div><strong>Applications:</strong> ${product.applications.join(', ')}</div>` : ''}
+                                ${product.additives.length ? `<div><strong>Additives:</strong> ${product.additives.join(', ')}</div>` : ''}
+                                ${product.nutritional.length ? `<div><strong>Nutritional:</strong> ${product.nutritional.join(', ')}</div>` : ''}
+                            </div>
+                            <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                                `Hi CropTech Fert,\n\nI'm interested in:\nProduct: ${product.name}\nCategory: ${product.category}\nMinerals: ${product.minerals.join(', ') || 'N/A'}\n\nPlease provide more details.`
+                            )}" 
+                               class="btn btn-cta w-100 mt-3" 
+                               target="_blank">
+                                <i class="fab fa-whatsapp me-2"></i>Inquire via WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Event Listeners
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            activeFilters.searchTerm = e.target.value.toLowerCase();
+            renderProducts();
+        });
+
+        document.getElementById('resetFilters').addEventListener('click', () => {
+            activeFilters = {
+                searchTerm: '',
+                categories: [],
+                minerals: [],
+                applications: [],
+                additives: [],
+                nutritional: []
+            };
+            document.querySelectorAll('.form-check-input').forEach(checkbox => checkbox.checked = false);
+            document.getElementById('searchInput').value = '';
+            renderProducts();
+        });
+
+        // Initialize
+        fetchProducts();
+    </script>
+</body>
+</html>
