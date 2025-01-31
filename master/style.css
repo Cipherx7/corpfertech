@@ -1,0 +1,157 @@
+:root {
+    --primary-green: #2d5a27;
+    --accent-yellow: #c9a227;
+    --earth-brown: #5c4a3a;
+}
+
+body {
+    background-color: #f8f9fa;
+    background-image: linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)), 
+                    url('assets/grain-pattern.jpg');
+}
+
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                url('https://media.istockphoto.com/id/543212762/photo/tractor-cultivating-field-at-spring.jpg?s=2048x2048&w=is&k=20&c=lcoNeXKU0MG1mCpSm8mKltDffVvsCRaZKT5ovO24VSQ=') center/cover;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    border-bottom: 5px solid var(--primary-green);
+}
+
+.product-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card img {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+}
+
+
+.image-container {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.image-container img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.agriculture-icon {
+    color: var(--primary-green);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.feature-box {
+    background: rgba(var(--primary-green), 0.1);
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 1rem 0;
+}
+
+footer {
+    background: var(--primary-green);
+    color: white;
+    border-top: 5px solid var(--accent-yellow);
+}
+
+.map-container {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn-cta {
+    background: var(--primary-green);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    border: 2px solid var(--accent-yellow);
+}
+
+.navbar {
+    border-bottom: 3px solid var(--accent-yellow);
+}
+
+.product-card {
+    border: none;
+    transition: transform 0.3s;
+    margin: 15px;
+    min-width: 300px;
+}
+
+
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.carousel-container {
+    overflow: hidden;
+    padding: 2rem 0;
+}
+
+.product-carousel {
+    display: flex;
+    animation: scroll 20s linear infinite;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.btn-cta:hover {
+    background: var(--accent-yellow);
+    color: var(--primary-green);
+}
+
+.pageclip-form__submit {
+    background: var(--primary-green) !important;
+    border-color: var(--accent-yellow) !important;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        height: 50vh;
+    }
+
+    .feature-box {
+        text-align: center;
+    }
+
+    .product-carousel {
+        flex-direction: column;
+        animation: none;
+    }
+
+    .map-container iframe {
+        height: 200px;
+    }
+
+    .py-5 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    footer .row {
+        text-align: center;
+    }
+
+    footer .col-md-6 {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+}
